@@ -1,0 +1,9 @@
+{
+  "build": {
+    "backend": "cd backend && npm install",
+    "frontend": "cd frontend && npm install && npm run build"
+  },
+  "start": {
+    "backend": "cd backend && npm start"
+  }
+}
