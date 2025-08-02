@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
 import {
   Search,
   Users,
@@ -40,17 +39,16 @@ export default function HomePage() {
     const data = await response.json();
 
     if (response.ok) {
-      // Enhance jobs data with mock details for the new design
       const enhancedJobs = data.jobs.map((job: any) => ({
         ...job,
-        salary: "$90,000 - $120,000", // Mock salary
-        applicants: Math.floor(Math.random() * 100) + 1, // Random applicants count
-        matchScore: Math.floor(Math.random() * 30) + 70, // Random match score 70-100
+        salary: "$90,000 - $120,000",
+        applicants: Math.floor(Math.random() * 100) + 1,
+        matchScore: Math.floor(Math.random() * 30) + 70,
         longDescription:
           job.description +
           " " +
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.", // Extended description
-        remote: Math.random() > 0.5, // Random remote status
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.",
+        remote: Math.random() > 0.5,
       }));
       return { jobs: enhancedJobs, pagination: data.pagination };
     }
@@ -89,7 +87,7 @@ export default function HomePage() {
       {/* Dynamic Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          className="absolute w-96 h-96 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 transition-all duration-1000"
+          className="absolute w-64 h-64 md:w-96 md:h-96 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 transition-all duration-1000"
           style={{
             transform: `translate(${mousePosition.x * 0.02}px, ${
               mousePosition.y * 0.02
@@ -97,7 +95,7 @@ export default function HomePage() {
           }}
         ></div>
         <div
-          className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 transition-all duration-1000"
+          className="absolute bottom-0 right-0 w-64 h-64 md:w-80 md:h-80 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 transition-all duration-1000"
           style={{
             transform: `translate(${-mousePosition.x * 0.01}px, ${
               -mousePosition.y * 0.01
@@ -110,16 +108,16 @@ export default function HomePage() {
       <Header />
 
       {/* Hero Section with Unique Layout */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-20 md:pt-32 pb-12 md:pb-20 px-4 sm:px-6">
         <div
           className={`max-w-7xl mx-auto transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
             {/* Left Content */}
             <div>
-              <h1 className="text-6xl md:text-7xl font-black mb-6 leading-none">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 leading-tight">
                 <span className="text-gray-900">Your</span>
                 <br />
                 <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
@@ -129,22 +127,22 @@ export default function HomePage() {
                 <span className="text-gray-900">Awaits</span>
               </h1>
 
-              <p className="text-xl text-gray-600 mb-12 leading-relaxed max-w-lg">
+              <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-12 leading-relaxed max-w-lg">
                 Connect with top employers and discover opportunities that match
                 your skills and aspirations. Your next career move starts here.
               </p>
 
               {/* Unique Search Interface */}
-              <div className="relative mb-12">
+              <div className="relative mb-8 md:mb-12">
                 <div
                   className={`transition-all duration-500 ${
                     searchFocused ? "scale-105" : "scale-100"
                   }`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-2xl blur opacity-20"></div>
-                  <div className="relative bg-white rounded-2xl p-2 border-2 border-transparent hover:border-purple-200 transition-all duration-300">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex-1 flex items-center space-x-3 px-4 py-3">
+                  <div className="relative bg-white rounded-2xl p-1 sm:p-2 border-2 border-transparent hover:border-purple-200 transition-all duration-300">
+                    <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                      <div className="flex-1 flex items-center space-x-3 px-3 sm:px-4 py-2 sm:py-3 w-full">
                         <Search
                           className={`h-5 w-5 transition-colors duration-300 ${
                             searchFocused ? "text-purple-500" : "text-gray-400"
@@ -153,15 +151,15 @@ export default function HomePage() {
                         <input
                           type="text"
                           placeholder="What's your dream role?"
-                          className="flex-1 text-gray-700 placeholder-gray-400 outline-none text-lg"
+                          className="flex-1 text-gray-700 placeholder-gray-400 outline-none text-base sm:text-lg w-full"
                           onFocus={() => setSearchFocused(true)}
                           onBlur={() => setSearchFocused(false)}
                         />
                       </div>
-                      <Link href="/jobs">
+                      <Link href="/jobs" className="w-full sm:w-auto">
                         <Button
                           size="lg"
-                          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 font-medium"
+                          className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center sm:justify-start space-x-2 font-medium"
                         >
                           <span>Browse Jobs</span>
                           <Rocket className="h-4 w-4" />
@@ -173,7 +171,7 @@ export default function HomePage() {
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                 {[
                   {
                     number: "10K+",
@@ -192,14 +190,16 @@ export default function HomePage() {
                   },
                 ].map((stat, index) => (
                   <div key={index} className="text-center group">
-                    <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                      <div className="text-purple-500 mb-2 flex justify-center">
+                    <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-gray-200/50 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                      <div className="text-purple-500 mb-1 sm:mb-2 flex justify-center">
                         {stat.icon}
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">
+                      <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
                         {stat.number}
                       </div>
-                      <div className="text-gray-600 text-sm">{stat.label}</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">
+                        {stat.label}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -207,8 +207,8 @@ export default function HomePage() {
             </div>
 
             {/* Right Interactive Job Carousel */}
-            <div className="relative">
-              <div className="relative h-96">
+            <div className="relative mt-8 lg:mt-0">
+              <div className="relative h-64 sm:h-80 md:h-96">
                 <JobCarousel />
               </div>
             </div>
@@ -217,42 +217,42 @@ export default function HomePage() {
       </section>
 
       {/* Interactive Features Grid */}
-      <section className="py-20 px-6">
+      <section className="py-12 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
               Why Choose JobBoard?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
               We make job searching simple, efficient, and successful with our
               powerful platform.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="group relative bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/50 hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer"
+                className="group relative bg-white/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-gray-200/50 hover:shadow-xl sm:hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] sm:hover:scale-105 cursor-pointer"
               >
-                <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl from-purple-500 to-pink-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-2xl sm:rounded-3xl from-purple-500 to-pink-500"></div>
 
                 <div
-                  className={`w-14 h-14 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center text-white mb-6 transform transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110`}
+                  className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r ${feature.color} rounded-xl sm:rounded-2xl flex items-center justify-center text-white mb-4 sm:mb-6 transform transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110`}
                 >
                   {feature.icon}
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                   {feature.description}
                 </p>
 
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                    <ArrowRight className="h-3 w-3 text-white" />
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-purple-500 rounded-full flex items-center justify-center">
+                    <ArrowRight className="h-2 w-2 sm:h-3 sm:w-3 text-white" />
                   </div>
                 </div>
               </div>
@@ -262,18 +262,17 @@ export default function HomePage() {
       </section>
 
       {/* Expandable Job Cards Section */}
-      <section className="py-20 px-6 bg-white/40 backdrop-blur-sm">
+      <section className="py-12 md:py-20 px-4 sm:px-6 bg-white/40 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
-          <div className="space-y-6">
-            {" "}
+          <div className="space-y-4 sm:space-y-6">
             <JobListings fetchJobs={fetchJobs} />
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-8 md:mt-12">
             <Link href="/jobs">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium"
               >
                 View All Jobs
               </Button>
@@ -283,19 +282,19 @@ export default function HomePage() {
       </section>
 
       {/* Modern Footer */}
-      <footer className="py-16 px-6 bg-white/60 backdrop-blur-sm border-t border-gray-200/50">
+      <footer className="py-12 md:py-16 px-4 sm:px-6 bg-white/60 backdrop-blur-sm border-t border-gray-200/50">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12">
             <div className="md:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-100 rounded-xl flex items-center justify-center transform rotate-12">
-                  <Briefcase className="h-6 w-6 text-black transform -rotate-12" />
+              <div className="flex items-center space-x-3 mb-4 md:mb-6">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-100 rounded-xl flex items-center justify-center transform rotate-12">
+                  <Briefcase className="h-5 w-5 sm:h-6 sm:w-6 text-black transform -rotate-12" />
                 </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
                   JobBoard
                 </span>
               </div>
-              <p className="text-gray-600 leading-relaxed max-w-md mb-6">
+              <p className="text-gray-600 leading-relaxed text-sm sm:text-base max-w-md mb-4 md:mb-6">
                 Connecting talented professionals with amazing opportunities.
                 Find your perfect role today.
               </p>
@@ -305,7 +304,7 @@ export default function HomePage() {
                   className="text-gray-500 hover:text-purple-500 transition-colors"
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5 sm:w-6 sm:h-6"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -317,7 +316,7 @@ export default function HomePage() {
                   className="text-gray-500 hover:text-purple-500 transition-colors"
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5 sm:w-6 sm:h-6"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -329,7 +328,7 @@ export default function HomePage() {
                   className="text-gray-500 hover:text-purple-500 transition-colors"
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5 sm:w-6 sm:h-6"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -340,14 +339,14 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
                 For Job Seekers
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2 sm:space-y-3">
                 <li>
                   <Link
                     href="/jobs"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Browse Jobs
                   </Link>
@@ -355,7 +354,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="/register"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Create Profile
                   </Link>
@@ -363,7 +362,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Job Alerts
                   </Link>
@@ -371,7 +370,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Career Advice
                   </Link>
@@ -380,14 +379,14 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
                 For Employers
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2 sm:space-y-3">
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Post a Job
                   </Link>
@@ -395,7 +394,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Browse Candidates
                   </Link>
@@ -403,7 +402,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Pricing
                   </Link>
@@ -411,7 +410,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Recruiting Solutions
                   </Link>
@@ -420,14 +419,14 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
                 Company
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2 sm:space-y-3">
                 <li>
                   <Link
                     href="/about"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     About Us
                   </Link>
@@ -435,7 +434,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Careers
                   </Link>
@@ -443,7 +442,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="/contact"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Contact
                   </Link>
@@ -451,7 +450,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="#"
-                    className="text-gray-600 hover:text-purple-500 transition-colors"
+                    className="text-sm sm:text-base text-gray-600 hover:text-purple-500 transition-colors"
                   >
                     Blog
                   </Link>
@@ -460,28 +459,28 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-gray-200/50">
+          <div className="pt-6 md:pt-8 border-t border-gray-200/50">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-500 text-sm mb-4 md:mb-0">
+              <p className="text-gray-500 text-xs sm:text-sm mb-3 md:mb-0">
                 © {new Date().getFullYear()} Hisham Ibrahim. All rights
                 reserved.
               </p>
-              <div className="flex space-x-6">
+              <div className="flex space-x-4 sm:space-x-6">
                 <Link
                   href="/privacy"
-                  className="text-gray-500 hover:text-purple-500 text-sm transition-colors"
+                  className="text-gray-500 hover:text-purple-500 text-xs sm:text-sm transition-colors"
                 >
                   Privacy Policy
                 </Link>
                 <Link
                   href="#"
-                  className="text-gray-500 hover:text-purple-500 text-sm transition-colors"
+                  className="text-gray-500 hover:text-purple-500 text-xs sm:text-sm transition-colors"
                 >
                   Terms of Service
                 </Link>
                 <Link
                   href="#"
-                  className="text-gray-500 hover:text-purple-500 text-sm transition-colors"
+                  className="text-gray-500 hover:text-purple-500 text-xs sm:text-sm transition-colors"
                 >
                   Cookies
                 </Link>

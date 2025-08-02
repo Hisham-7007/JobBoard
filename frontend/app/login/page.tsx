@@ -154,21 +154,6 @@ export default function LoginPage() {
                   )}
                 </button>
 
-                {/* Demo Accounts */}
-                <div className="mt-4 p-4 bg-gray-50 rounded-xl">
-                  <p className="text-sm font-medium text-gray-700 mb-2 text-center">
-                    Demo Accounts:
-                  </p>
-                  <div className="text-xs text-gray-600 space-y-1 text-center">
-                    <p>
-                      <strong>Job Seeker:</strong> seeker@demo.com / password123
-                    </p>
-                    <p>
-                      <strong>Admin:</strong> admin@demo.com / password123
-                    </p>
-                  </div>
-                </div>
-
                 {/* Sign Up Link */}
                 <div className="text-center text-sm text-gray-600">
                   Don't have an account?{" "}

@@ -1,4 +1,3 @@
-// components/JobCarousel.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -44,7 +43,7 @@ export function JobCarousel() {
         if (response.ok) {
           const enhancedJobs = data.jobs.map((job: Job) => ({
             ...job,
-            salary: "$90,000 - $120,000", // Mock salary
+            salary: "$90,000 - $120,000",
             applicants: Math.floor(Math.random() * 100) + 1,
             matchScore: Math.floor(Math.random() * 30) + 70,
             trending: Math.random() > 0.5,
@@ -96,7 +95,7 @@ export function JobCarousel() {
 
   if (loading) {
     return (
-      <div className="relative h-96 bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-gray-100 animate-pulse">
+      <div className="relative h-64 sm:h-80 md:h-96 bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 animate-pulse">
         {/* Loading skeleton */}
       </div>
     );
@@ -104,7 +103,7 @@ export function JobCarousel() {
 
   if (jobs.length === 0) {
     return (
-      <div className="relative h-96 bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-gray-100 flex items-center justify-center">
+      <div className="relative h-64 sm:h-80 md:h-96 bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 flex items-center justify-center">
         <p className="text-gray-600">No featured jobs available</p>
       </div>
     );
@@ -112,7 +111,7 @@ export function JobCarousel() {
 
   return (
     <div className="relative">
-      <div className="relative h-96">
+      <div className="relative h-64 sm:h-80 md:h-96">
         {jobs.map((job, index) => (
           <div
             key={job._id}
@@ -124,42 +123,46 @@ export function JobCarousel() {
                 : "translate-x-full opacity-0 scale-95 z-10 pointer-events-none"
             }`}
           >
-            <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 h-full">
-              <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center space-x-4">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 h-full">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6">
+                <div className="flex items-center space-x-3 sm:space-x-4">
                   <div
-                    className={`w-16 h-16 bg-gradient-to-r ${job.companyColor} rounded-2xl flex items-center justify-center text-white text-2xl font-bold`}
+                    className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${job.companyColor} rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl font-bold`}
                   >
                     {job.company.charAt(0)}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                       {job.title}
                     </h3>
-                    <p className="text-purple-600 font-medium">{job.company}</p>
+                    <p className="text-purple-600 font-medium text-sm sm:text-base">
+                      {job.company}
+                    </p>
                   </div>
                 </div>
                 {job.trending && (
-                  <div className="bg-gradient-to-r from-orange-400 to-red-400 text-white text-xs px-3 py-1 rounded-full font-bold flex items-center space-x-1">
+                  <div className="bg-gradient-to-r from-orange-400 to-red-400 text-white text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-bold flex items-center space-x-1 mt-2 sm:mt-0">
                     <TrendingUp className="h-3 w-3" />
                     <span>HOT</span>
                   </div>
                 )}
               </div>
 
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center space-x-6 text-gray-600">
+              <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 text-gray-600">
                   <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4" />
-                    <span className="text-sm">{job.location}</span>
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="text-xs sm:text-sm">{job.location}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Clock className="h-4 w-4" />
-                    <span className="text-sm">{formatDate(job.createdAt)}</span>
+                    <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="text-xs sm:text-sm">
+                      {formatDate(job.createdAt)}
+                    </span>
                   </div>
                 </div>
 
-                <p className="text-gray-700 leading-relaxed line-clamp-1">
+                <p className="text-gray-700 leading-relaxed text-sm sm:text-base line-clamp-1">
                   {job.description}
                 </p>
 
@@ -167,7 +170,7 @@ export function JobCarousel() {
                   {job.skills.slice(0, 3).map((skill, skillIndex) => (
                     <span
                       key={skillIndex}
-                      className="bg-purple-50 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium"
+                      className="bg-purple-50 text-purple-700 px-2 py-1 sm:px-3 sm:py-1 rounded-lg text-xs sm:text-sm font-medium"
                     >
                       {skill}
                     </span>
@@ -175,24 +178,26 @@ export function JobCarousel() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
                 <div>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                     {job.salary}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-xs sm:text-sm text-gray-500">
                     {job.applicants} applicants
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto">
                   <div className="text-right">
-                    <div className="text-sm text-gray-500">Match Score</div>
-                    <div className="text-lg font-bold text-green-600">
+                    <div className="text-xs sm:text-sm text-gray-500">
+                      Match Score
+                    </div>
+                    <div className="text-base sm:text-lg font-bold text-green-600">
                       {job.matchScore}%
                     </div>
                   </div>
-                  <Link href={`/jobs/${job._id}`}>
-                    <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
+                  <Link href={`/jobs/${job._id}`} className="w-full sm:w-auto">
+                    <Button className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
                       Apply Now
                     </Button>
                   </Link>
@@ -204,12 +209,12 @@ export function JobCarousel() {
       </div>
 
       {/* Carousel Controls */}
-      <div className="flex items-center justify-center space-x-3 mt-8">
+      <div className="flex items-center justify-center space-x-2 sm:space-x-3 mt-4 sm:mt-6">
         {jobs.map((_, index) => (
           <button
             key={index}
             onClick={() => setActiveJobIndex(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
               index === activeJobIndex
                 ? "bg-purple-500 scale-125"
                 : "bg-gray-300 hover:bg-gray-400"
