@@ -1,135 +1,230 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Briefcase, MapPin, Clock, Search } from "lucide-react";
+import { MapPin, Clock, TrendingUp, ChevronRight } from "lucide-react";
 
 interface Job {
   _id: string;
   title: string;
-  type: string;
+  company: string;
+  description: string;
   location: string;
-  salary: string;
-  companyName: string;
-  matchScore: number;
-  applicants: number;
+  type: string;
+  experience: string;
+  skills: string[];
+  createdAt: string;
+  postedBy: {
+    name: string;
+  };
+  salary?: string;
+  applicants?: number;
+  matchScore?: number;
+  longDescription?: string;
+  remote?: boolean;
+  trending?: boolean;
+  companyColor?: string;
 }
 
-export default function JobCarousel() {
+export function JobCarousel() {
+  const [activeJobIndex, setActiveJobIndex] = useState(0);
   const [jobs, setJobs] = useState<Job[]>([]);
-  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchJobs = async () => {
+    const fetchCarouselJobs = async () => {
       try {
-        const res = await fetch("/api/jobs");
-        const data = await res.json();
-        setJobs(data);
-        setFilteredJobs(data);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/jobs?limit=3`
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          const enhancedJobs = data.jobs.map((job: Job) => ({
+            ...job,
+            salary: "$90,000 - $120,000",
+            applicants: Math.floor(Math.random() * 100) + 1,
+            matchScore: Math.floor(Math.random() * 30) + 70,
+            trending: Math.random() > 0.5,
+            companyColor: getRandomGradient(),
+          }));
+          setJobs(enhancedJobs);
+        }
       } catch (error) {
-        console.error("Failed to fetch jobs:", error);
+        console.error("Error fetching carousel jobs:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchJobs();
+
+    fetchCarouselJobs();
   }, []);
 
   useEffect(() => {
-    const filtered = jobs.filter((job) =>
-      job.title.toLowerCase().includes(searchQuery.toLowerCase())
+    if (jobs.length > 0) {
+      const interval = setInterval(() => {
+        setActiveJobIndex((prev) => (prev + 1) % jobs.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [jobs]);
+
+  const getRandomGradient = () => {
+    const gradients = [
+      "from-purple-400 to-pink-400",
+      "from-blue-400 to-cyan-400",
+      "from-orange-400 to-red-400",
+      "from-green-400 to-teal-400",
+      "from-yellow-400 to-amber-400",
+    ];
+    return gradients[Math.floor(Math.random() * gradients.length)];
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 1) return "1 day ago";
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
+    return `${Math.ceil(diffDays / 30)} months ago`;
+  };
+
+  if (loading) {
+    return (
+      <div className="relative min-h-[400px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 animate-pulse">
+        {/* Loading skeleton */}
+      </div>
     );
-    setFilteredJobs(filtered);
-  }, [searchQuery, jobs]);
+  }
+
+  if (jobs.length === 0) {
+    return (
+      <div className="relative min-h-[400px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 flex items-center justify-center">
+        <p className="text-gray-600">No featured jobs available</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <div className="mb-6 flex flex-col sm:flex-row items-center gap-4">
-        <Input
-          placeholder="Search for jobs..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-1"
-        />
-        <Select>
-          <SelectTrigger className="w-full sm:w-[200px]">
-            <SelectValue placeholder="Location" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="cairo">Cairo</SelectItem>
-            <SelectItem value="alex">Alexandria</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button className="w-full sm:w-auto" variant="secondary">
-          <Search className="mr-2 h-4 w-4" />
-          Search
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredJobs.map((job) => (
+    <div className="relative">
+      <div className="relative min-h-[400px]">
+        {jobs.map((job, index) => (
           <div
             key={job._id}
-            className="border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-lg transition-all bg-white flex flex-col justify-between"
+            className={`absolute inset-0 transition-all duration-700 transform ${
+              index === activeJobIndex
+                ? "translate-x-0 opacity-100 scale-100 z-20 pointer-events-auto"
+                : index < activeJobIndex
+                ? "-translate-x-full opacity-0 scale-95 z-10 pointer-events-none"
+                : "translate-x-full opacity-0 scale-95 z-10 pointer-events-none"
+            }`}
           >
-            {/* Job Info */}
-            <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-purple-600">
-                {job.title}
-              </h3>
-              <p className="text-gray-600">{job.companyName}</p>
-              <div className="flex flex-wrap gap-2 text-sm text-gray-500">
-                <span className="flex items-center gap-1">
-                  <Briefcase className="w-4 h-4" />
-                  {job.type}
-                </span>
-                <span className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4" />
-                  {job.location}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  Posted 3d ago
-                </span>
-              </div>
-            </div>
-
-            {/* Bottom section */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-6">
-              {/* Salary & Applicants */}
-              <div>
-                <div className="text-lg sm:text-xl font-bold text-gray-900">
-                  {job.salary}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {job.applicants} applicants
-                </div>
-              </div>
-
-              {/* Match Score & Apply */}
-              <div className="flex flex-col sm:flex-row items-end sm:items-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-3">
-                <div className="text-right sm:text-left">
-                  <div className="text-xs text-gray-500">Match Score</div>
-                  <div className="text-base font-bold text-green-600">
-                    {job.matchScore}%
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 h-full flex flex-col">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4">
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div
+                    className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${job.companyColor} rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl font-bold`}
+                  >
+                    {job.company.charAt(0)}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 line-clamp-1">
+                      {job.title}
+                    </h3>
+                    <p className="text-purple-600 font-medium text-sm sm:text-base line-clamp-1">
+                      {job.company}
+                    </p>
                   </div>
                 </div>
-                <Link href={`/jobs/${job._id}`} className="w-full sm:w-auto">
-                  <Button className="w-full sm:w-fit bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
-                    Apply Now
-                  </Button>
-                </Link>
+                {job.trending && (
+                  <div className="bg-gradient-to-r from-orange-400 to-red-400 text-white text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-bold flex items-center space-x-1 mt-2 sm:mt-0">
+                    <TrendingUp className="h-3 w-3" />
+                    <span>HOT</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex-grow space-y-3 sm:space-y-4 mb-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-gray-600">
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="text-xs sm:text-sm">{job.location}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="text-xs sm:text-sm">
+                      {formatDate(job.createdAt)}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-gray-700 leading-relaxed text-sm sm:text-base line-clamp-2 sm:line-clamp-3">
+                  {job.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  {job.skills.slice(0, 3).map((skill, skillIndex) => (
+                    <span
+                      key={skillIndex}
+                      className="bg-purple-50 text-purple-700 px-2 py-1 sm:px-3 sm:py-1 rounded-lg text-xs sm:text-sm font-medium"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-auto">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div>
+                    <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+                      {job.salary}
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-500">
+                      {job.applicants} applicants
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 w-full sm:w-auto">
+                    <div className="text-right">
+                      <div className="text-xs sm:text-sm text-gray-500">
+                        Match Score
+                      </div>
+                      <div className="text-base sm:text-lg font-bold text-green-600">
+                        {job.matchScore}%
+                      </div>
+                    </div>
+                    <Link
+                      href={`/jobs/${job._id}`}
+                      className="flex-1 sm:flex-none"
+                    >
+                      <Button className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
+                        Apply Now
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        ))}
+      </div>
+
+      {/* Carousel Controls */}
+      <div className="flex items-center justify-center space-x-2 sm:space-x-3 mt-4 sm:mt-6">
+        {jobs.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveJobIndex(index)}
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+              index === activeJobIndex
+                ? "bg-purple-500 scale-125"
+                : "bg-gray-300 hover:bg-gray-400"
+            }`}
+          />
         ))}
       </div>
     </div>

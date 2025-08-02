@@ -15,8 +15,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { JobListings } from "@/components/JobListings";
-import JobCarousel from "@/components/JobCarousel";
-// import { JobCarousel } from "@/components/JobCarousel";
+import { JobCarousel } from "@/components/JobCarousel";
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
