@@ -95,7 +95,7 @@ export function JobCarousel() {
 
   if (loading) {
     return (
-      <div className="relative h-[500px] sm:h-[600px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 animate-pulse">
+      <div className="relative h-64 sm:h-80 md:h-96 bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 animate-pulse">
         {/* Loading skeleton */}
       </div>
     );
@@ -103,7 +103,7 @@ export function JobCarousel() {
 
   if (jobs.length === 0) {
     return (
-      <div className="relative h-[500px] sm:h-[600px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 flex items-center justify-center">
+      <div className="relative h-64 sm:h-80 md:h-96 bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 flex items-center justify-center">
         <p className="text-gray-600">No featured jobs available</p>
       </div>
     );
@@ -111,7 +111,7 @@ export function JobCarousel() {
 
   return (
     <div className="relative">
-      <div className="relative h-[500px] sm:h-[600px]">
+      <div className="relative h-64 sm:h-80 md:h-96">
         {jobs.map((job, index) => (
           <div
             key={job._id}
@@ -123,7 +123,7 @@ export function JobCarousel() {
                 : "translate-x-full opacity-0 scale-95 z-10 pointer-events-none"
             }`}
           >
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 h-full flex flex-col">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 h-full">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6">
                 <div className="flex items-center space-x-3 sm:space-x-4">
                   <div
@@ -148,7 +148,7 @@ export function JobCarousel() {
                 )}
               </div>
 
-              <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 flex-grow">
+              <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 text-gray-600">
                   <div className="flex items-center space-x-2">
                     <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -162,11 +162,11 @@ export function JobCarousel() {
                   </div>
                 </div>
 
-                <p className="text-gray-700 leading-relaxed text-sm sm:text-base line-clamp-3">
+                <p className="text-gray-700 leading-relaxed text-sm sm:text-base line-clamp-1">
                   {job.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="flex flex-wrap gap-2">
                   {job.skills.slice(0, 3).map((skill, skillIndex) => (
                     <span
                       key={skillIndex}
@@ -178,7 +178,8 @@ export function JobCarousel() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mt-auto">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+                {/* Salary & Applicants */}
                 <div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                     {job.salary}
@@ -187,8 +188,10 @@ export function JobCarousel() {
                     {job.applicants} applicants
                   </div>
                 </div>
-                <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto mt-3 sm:mt-0">
-                  <div className="text-right">
+
+                {/* Match Score & Button */}
+                <div className="flex flex-col sm:flex-row items-end sm:items-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-3">
+                  <div className="text-right sm:text-left">
                     <div className="text-xs sm:text-sm text-gray-500">
                       Match Score
                     </div>
@@ -197,7 +200,7 @@ export function JobCarousel() {
                     </div>
                   </div>
                   <Link href={`/jobs/${job._id}`} className="w-full sm:w-auto">
-                    <Button className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
+                    <Button className="w-full sm:w-fit bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
                       Apply Now
                     </Button>
                   </Link>

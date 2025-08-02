@@ -300,7 +300,7 @@ export default function HomePage() {
               </p>
               <div className="flex items-center space-x-4">
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/hisham-ibrahim-870206173"
                   className="text-gray-500 hover:text-purple-500 transition-colors"
                 >
                   <svg
@@ -312,7 +312,7 @@ export default function HomePage() {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/hisham-ibrahim-870206173/"
                   className="text-gray-500 hover:text-purple-500 transition-colors"
                 >
                   <svg
@@ -324,7 +324,7 @@ export default function HomePage() {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/hisham-ibrahim-870206173/"
                   className="text-gray-500 hover:text-purple-500 transition-colors"
                 >
                   <svg
