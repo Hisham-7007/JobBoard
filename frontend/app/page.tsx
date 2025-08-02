@@ -217,7 +217,7 @@ export default function HomePage() {
       </section>
 
       {/* Interactive Features Grid */}
-      <section className="py-12 md:py-20 px-4 sm:px-6">
+      {/* <section className="py-12 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
@@ -259,7 +259,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Expandable Job Cards Section */}
       <section className="py-12 md:py-20 px-4 sm:px-6 bg-white/40 backdrop-blur-sm">
