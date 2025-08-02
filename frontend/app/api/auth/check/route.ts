@@ -4,14 +4,13 @@ import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
+    const cookieStore = cookies(); // ✅ بدون await
     const token = cookieStore.get("auth-token")?.value;
 
     if (!token) {
       return NextResponse.json({ message: "No token found" }, { status: 401 });
     }
 
-    // Verify token with your Express backend
     const response = await fetch(
       `${process.env.BACKEND_URL || "http://localhost:5000"}/api/auth/me`,
       {
@@ -23,8 +22,6 @@ export async function GET(request: NextRequest) {
     );
 
     if (!response.ok) {
-      // Token is invalid, clear the cookie
-      cookieStore.delete("auth-token");
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
     }
 
@@ -32,7 +29,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       user: data.user,
-      token: token, // Return token for client-side API calls
+      token,
     });
   } catch (error) {
     console.error("Auth check error:", error);
