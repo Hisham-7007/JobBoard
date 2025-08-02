@@ -207,7 +207,7 @@ export default function HomePage() {
             </div>
 
             {/* Right Interactive Job Carousel */}
-            <div className="relative mt-8 lg:mt-0">
+            <div className="relative lg:mt-0 z-0 mt-16">
               <div className="relative h-64 sm:h-80 md:h-96">
                 <JobCarousel />
               </div>
@@ -219,8 +219,8 @@ export default function HomePage() {
       {/* Interactive Features Grid */}
       <section className="py-12 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
+          <div className="text-center mb-32 md:mb-40 relative z-10">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mt-24 mb-2 md:mb-6">
               Why Choose JobBoard?
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
