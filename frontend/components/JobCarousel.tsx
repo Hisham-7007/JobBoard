@@ -95,7 +95,7 @@ export function JobCarousel() {
 
   if (loading) {
     return (
-      <div className="relative min-h-[400px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 animate-pulse">
+      <div className="relative h-[500px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 animate-pulse">
         {/* Loading skeleton */}
       </div>
     );
@@ -103,7 +103,7 @@ export function JobCarousel() {
 
   if (jobs.length === 0) {
     return (
-      <div className="relative min-h-[400px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 flex items-center justify-center">
+      <div className="relative h-[500px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 flex items-center justify-center">
         <p className="text-gray-600">No featured jobs available</p>
       </div>
     );
@@ -111,7 +111,7 @@ export function JobCarousel() {
 
   return (
     <div className="relative">
-      <div className="relative min-h-[400px]">
+      <div className="relative h-[500px]">
         {jobs.map((job, index) => (
           <div
             key={job._id}
@@ -124,30 +124,32 @@ export function JobCarousel() {
             }`}
           >
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 h-full flex flex-col">
+              {/* Header Section */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4">
-                <div className="flex items-center space-x-3 sm:space-x-4">
+                <div className="flex items-center space-x-3 sm:space-x-4 w-full">
                   <div
-                    className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${job.companyColor} rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl font-bold`}
+                    className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${job.companyColor} rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl font-bold flex-shrink-0`}
                   >
                     {job.company.charAt(0)}
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 line-clamp-1">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 truncate">
                       {job.title}
                     </h3>
-                    <p className="text-purple-600 font-medium text-sm sm:text-base line-clamp-1">
+                    <p className="text-purple-600 font-medium text-sm sm:text-base truncate">
                       {job.company}
                     </p>
                   </div>
                 </div>
                 {job.trending && (
-                  <div className="bg-gradient-to-r from-orange-400 to-red-400 text-white text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-bold flex items-center space-x-1 mt-2 sm:mt-0">
+                  <div className="bg-gradient-to-r from-orange-400 to-red-400 text-white text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-bold flex items-center space-x-1 mt-2 sm:mt-0 self-end sm:self-auto">
                     <TrendingUp className="h-3 w-3" />
                     <span>HOT</span>
                   </div>
                 )}
               </div>
 
+              {/* Content Section */}
               <div className="flex-grow space-y-3 sm:space-y-4 mb-4">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-gray-600">
                   <div className="flex items-center space-x-2">
@@ -178,9 +180,10 @@ export function JobCarousel() {
                 </div>
               </div>
 
-              <div className="mt-auto">
+              {/* Footer Section - Pushed to bottom */}
+              <div className="mt-auto pt-4 border-t border-gray-200">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div>
+                  <div className="flex-1">
                     <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                       {job.salary}
                     </div>
