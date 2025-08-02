@@ -178,7 +178,8 @@ export function JobCarousel() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+                {/* Salary & Applicants */}
                 <div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                     {job.salary}
@@ -187,8 +188,10 @@ export function JobCarousel() {
                     {job.applicants} applicants
                   </div>
                 </div>
-                <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto">
-                  <div className="text-right">
+
+                {/* Match Score & Button */}
+                <div className="flex flex-col sm:flex-row items-end sm:items-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-3">
+                  <div className="text-right sm:text-left">
                     <div className="text-xs sm:text-sm text-gray-500">
                       Match Score
                     </div>
@@ -197,7 +200,7 @@ export function JobCarousel() {
                     </div>
                   </div>
                   <Link href={`/jobs/${job._id}`} className="w-full sm:w-auto">
-                    <Button className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
+                    <Button className="w-full sm:w-fit bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 font-medium">
                       Apply Now
                     </Button>
                   </Link>
