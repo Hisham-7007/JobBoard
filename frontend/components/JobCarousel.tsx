@@ -94,7 +94,7 @@ export function JobCarousel() {
     return `${Math.ceil(diffDays / 30)} months ago`;
   };
 
-  if (!loading) {
+  if (loading) {
     return <JobCarouselSkeleton />;
   }
 
