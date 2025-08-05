@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -30,7 +29,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   Briefcase,
-  Search,
   Eye,
   Clock,
   ChevronLeft,
