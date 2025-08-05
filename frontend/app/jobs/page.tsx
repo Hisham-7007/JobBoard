@@ -72,56 +72,80 @@ export default function JobsPage() {
   const [savedJobs, setSavedJobs] = useState(new Set<string>());
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      fetchJobs();
-    }, 500);
+  // useEffect(() => {
+  //   const handler = setTimeout(() => {
+  //     fetchJobs();
+  //   }, 500);
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [pagination.current, filters]);
+  //   return () => {
+  //     clearTimeout(handler);
+  //   };
+  // }, [pagination.current, filters]);
 
-  const fetchJobs = async () => {
-    setLoading(true);
-    try {
-      const queryParams = new URLSearchParams({
-        page: pagination.current.toString(),
-        limit: "9",
-        ...(filters.search && { search: filters.search }),
-        ...(filters.location && { location: filters.location }),
-        ...(filters.type && filters.type !== "all" && { type: filters.type }),
-        ...(filters.experience &&
-          filters.experience !== "all" && { experience: filters.experience }),
-      });
+  // const fetchJobs = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const queryParams = new URLSearchParams({
+  //       page: pagination.current.toString(),
+  //       limit: "9",
+  //       ...(filters.search && { search: filters.search }),
+  //       ...(filters.location && { location: filters.location }),
+  //       ...(filters.type && filters.type !== "all" && { type: filters.type }),
+  //       ...(filters.experience &&
+  //         filters.experience !== "all" && { experience: filters.experience }),
+  //     });
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/jobs?${queryParams}`
-      );
-      const data = await response.json();
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/api/jobs?${queryParams}`
+  //     );
+  //     const data = await response.json();
 
-      if (response.ok) {
-        // Enhance jobs data with mock details for the new design
-        const enhancedJobs = data.jobs.map((job: Job) => ({
-          ...job,
-          salary: "$90,000 - $120,000", // Mock salary
-          applicants: Math.floor(Math.random() * 100) + 1, // Random applicants count
-          matchScore: Math.floor(Math.random() * 30) + 70, // Random match score 70-100
-          longDescription:
-            job.description +
-            " " +
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.", // Extended description
-          remote: Math.random() > 0.5, // Random remote status
-          companyColor: getRandomGradient(), // Random company color gradient
-        }));
-        setJobs(enhancedJobs);
-        setPagination(data.pagination);
-      }
-    } catch (error) {
-      console.error("Error fetching jobs:", error);
-    } finally {
-      setLoading(false);
+  //     if (response.ok) {
+  //       // Enhance jobs data with mock details for the new design
+  //       const enhancedJobs = data.jobs.map((job: Job) => ({
+  //         ...job,
+  //         salary: "$90,000 - $120,000", // Mock salary
+  //         applicants: Math.floor(Math.random() * 100) + 1, // Random applicants count
+  //         matchScore: Math.floor(Math.random() * 30) + 70, // Random match score 70-100
+  //         longDescription:
+  //           job.description +
+  //           " " +
+  //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.", // Extended description
+  //         remote: Math.random() > 0.5, // Random remote status
+  //         companyColor: getRandomGradient(), // Random company color gradient
+  //       }));
+  //       setJobs(enhancedJobs);
+  //       setPagination(data.pagination);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching jobs:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const fetchJobs = async (params: any) => {
+    const queryParams = new URLSearchParams(params);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/jobs?${queryParams}`
+    );
+    const data = await response.json();
+
+    if (response.ok) {
+      const enhancedJobs = data.jobs.map((job: any) => ({
+        ...job,
+        salary: "$90,000 - $120,000",
+        applicants: Math.floor(Math.random() * 100) + 1,
+        matchScore: Math.floor(Math.random() * 30) + 70,
+        longDescription:
+          job.description +
+          " " +
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.",
+        remote: Math.random() > 0.5,
+      }));
+      return { jobs: enhancedJobs, pagination: data.pagination };
     }
+    throw new Error("Failed to fetch jobs");
   };
 
   const getRandomGradient = () => {
@@ -193,7 +217,7 @@ export default function JobsPage() {
 
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
-          <JobListings />
+          <JobListings fetchJobs={fetchJobs} />
         </div>
       </section>
     </div>
