@@ -31,30 +31,6 @@ export default function HomePage() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const fetchJobs = async (params: any) => {
-    const queryParams = new URLSearchParams(params);
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/jobs?${queryParams}`
-    );
-    const data = await response.json();
-
-    if (response.ok) {
-      const enhancedJobs = data.jobs.map((job: any) => ({
-        ...job,
-        salary: "$90,000 - $120,000",
-        applicants: Math.floor(Math.random() * 100) + 1,
-        matchScore: Math.floor(Math.random() * 30) + 70,
-        longDescription:
-          job.description +
-          " " +
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.",
-        remote: Math.random() > 0.5,
-      }));
-      return { jobs: enhancedJobs, pagination: data.pagination };
-    }
-    throw new Error("Failed to fetch jobs");
-  };
-
   const features = [
     {
       icon: <Zap className="h-6 w-6" />,
@@ -265,7 +241,7 @@ export default function HomePage() {
       <section className="py-12 md:py-20 px-4 sm:px-6 bg-white/40 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
           <div className="space-y-4 sm:space-y-6">
-            <JobListings fetchJobs={fetchJobs} />
+            <JobListings />
           </div>
 
           <div className="text-center mt-8 md:mt-12">
