@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MapPin, Clock, TrendingUp } from "lucide-react";
+import JobCarouselSkeleton from "./ui/JobCarouselSkeleton";
 
 interface Job {
   _id: string;
@@ -93,12 +94,8 @@ export function JobCarousel() {
     return `${Math.ceil(diffDays / 30)} months ago`;
   };
 
-  if (loading) {
-    return (
-      <div className="relative min-h-[400px] bg-white/60 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg sm:shadow-2xl border border-gray-100 animate-pulse">
-        {/* Loading skeleton */}
-      </div>
-    );
+  if (!loading) {
+    return <JobCarouselSkeleton />;
   }
 
   if (jobs.length === 0) {
