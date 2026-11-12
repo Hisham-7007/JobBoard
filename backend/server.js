@@ -24,22 +24,27 @@ app.use(
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost:27017/jobboard",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error("❌ MONGODB_URI is missing!");
+  process.exit(1);
+}
+
+console.log(
+  "MongoDB Host:",
+  MONGODB_URI.match(/@([^/]+)/)?.[1] || "Check connection string"
 );
 
-mongoose.connection.on("connected", () => {
-  console.log("✅ Connected to MongoDB");
-});
-
-mongoose.connection.on("error", (err) => {
-  console.error("❌ MongoDB connection error:", err);
-});
-
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err.message);
+    process.exit(1);
+  });
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
